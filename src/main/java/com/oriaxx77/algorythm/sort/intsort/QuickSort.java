@@ -19,16 +19,19 @@ public class QuickSort implements Sort
     @Override
     public void sort(int[] array)
     {
-       quickSort( array, 0, array.length-1 ); 
+        if ( isSorted( array ) )
+            return ;
+        
+        sort( array, 0, array.length-1 );
     }
 
-    private void quickSort(int[] a, int lo, int hi)
+    private void sort(int[] a, int lo, int hi)
     {
         if ( lo < hi )
-        {
+        {    
             int p = partition( a, lo, hi);
-            quickSort( a, lo, p);
-            quickSort( a, p+1, hi );
+            sort( a, lo, p);
+            sort( a, p+1, hi );
         }
         
     }
@@ -36,20 +39,21 @@ public class QuickSort implements Sort
     private int partition(int[] a, int lo, int hi)
     {
         int pivot = a[lo];
-        int i = lo; // lo inclusive
-        int j = hi; // hi exclusive
-        while ( true )
+        int i = lo;
+        int j = hi;
+        
+        while( true )
         {
-            while ( a[i] < pivot )
+            while( a[i] < pivot )
                 i++;
-        
-            while ( a[j] > pivot )
+            
+            while( a[j] > pivot )
                 j--;
-        
-            if ( i >= j)
+            
+            if ( i >= j )
                 return j;
             
-            swapper.swap( a, i, j );
+            swapper.swap( a, i, j);
         }
     }
 

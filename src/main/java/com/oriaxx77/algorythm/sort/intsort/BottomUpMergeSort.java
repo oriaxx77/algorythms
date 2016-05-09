@@ -16,10 +16,9 @@ public class BottomUpMergeSort implements Sort
             return;
         
         int[] auxArray = new int[array.length];
-        System.out.println( "N : " + array.length );
-        for ( int width = 1; width < array.length; width = 2*width )  // lg(n)
+        for ( int width = 1; width < array.length; width = 2*width ) 
         {
-            for ( int low = 0; low < array.length; low = low+width*2 ) // n + 2*n/2 + 4*n/4 + 8*n/8 ....
+            for ( int low = 0; low < array.length; low = low+width*2 ) 
             {
                 int high = Math.min( low + (width*2), array.length);
                 int mid = Math.min( low + width, array.length);
