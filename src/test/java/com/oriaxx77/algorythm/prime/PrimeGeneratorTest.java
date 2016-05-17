@@ -3,7 +3,7 @@
  */
 package com.oriaxx77.algorythm.prime;
 
-import static org.junit.Assert.assertEquals;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
 /**
  * @author Oriaxx77
  */
@@ -23,7 +26,7 @@ public class PrimeGeneratorTest
 {
 	@Parameters
 	public static Collection<PrimeGenerator> primeGenerators() {
-		return Arrays.asList( new NaivePrimeGenerator() );
+	    return Arrays.asList( new NaivePrimeGenerator(), new BitSieveOfEratosthenes() );
 	}
 		
 	private PrimeGenerator primeGenerator;
@@ -37,13 +40,16 @@ public class PrimeGeneratorTest
 	public void testGeneratePrimes_UpTo18() 
 	{
 		List<Integer> generatedPrimes = primeGenerator.generatePrimes( 18 );
-		assertEquals( Arrays.asList(2,3,5,7,9,11,13,17), generatedPrimes);
+		List<Integer> expectedPrimes =  Arrays.asList(2, 3, 5, 7, 11, 13, 17);
+		assertThat( expectedPrimes , is( generatedPrimes ) );
 	}
 	
 	@Test
 	public void testGeneratePrimes_BaseCase()
 	{
-		assertEquals( new ArrayList<Integer>(), primeGenerator.generatePrimes(1) );
+	    List<Integer> generatedPrimes = primeGenerator.generatePrimes(1);
+	    List<Integer> expectedPrimes = new ArrayList<Integer>();
+		assertThat( expectedPrimes, is( generatedPrimes ) );
 	}
 
 }
