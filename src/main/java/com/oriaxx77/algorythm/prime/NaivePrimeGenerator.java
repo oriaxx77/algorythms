@@ -11,9 +11,8 @@ public class NaivePrimeGenerator implements PrimeGenerator
 {
 
 	@Override
-    public List<Integer> generatePrimes(int limit)
+    public List<Integer> generatePrimes( int limit )
     {
-        // TODO: work on the base cases
         List<Integer> primes = new ArrayList<Integer>();
         
         if ( limit <=1 )
@@ -38,13 +37,13 @@ public class NaivePrimeGenerator implements PrimeGenerator
     
     
     
-    private boolean isPrime( int nextPrime, List<Integer> primes)
+    private boolean isPrime( int candidate, List<Integer> primes )
     {
-        int sqrt = (int)Math.sqrt(nextPrime);
+        int sqrt = (int)Math.sqrt(candidate);
         
-        for (int i = 0; primes.get(i) <= sqrt; i++)
+        for ( int i = 0; primes.get(i) <= sqrt; i++ )
         {
-            if ( divisible( nextPrime, primes.get(i) ) )
+            if ( divisible( candidate, primes.get(i) ) )
             {
                 return false;
             }
@@ -53,7 +52,7 @@ public class NaivePrimeGenerator implements PrimeGenerator
     }
     
     
-    private int nextCandidate( int currentCandidate)
+    private int nextCandidate( int currentCandidate )
     {
         return currentCandidate + 2;
     }
