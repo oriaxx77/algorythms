@@ -17,7 +17,7 @@ public class GreatestCommonDivisorTest {
 	
 	@Parameters
 	public static Collection<GreatestCommonDivisor> gcds(){
-		return Arrays.asList( new EucledianGreatestCommonDivisor() );
+		return Arrays.asList( new EucledianGreatestCommonDivisor(), new BinaryGreatestCommonDivisor() );
 	}
 	
 	
