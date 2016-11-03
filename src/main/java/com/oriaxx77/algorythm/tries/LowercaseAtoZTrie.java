@@ -11,12 +11,13 @@ import java.util.stream.Stream;
 // TODO: define tests
 // TODO: define operations
 // TODO: implement missing operations.
-public class LowercaseAtoZTries {
+public class LowercaseAtoZTrie {
 	
 	private static final int NUMBER_OF_CHARACTERS = 26;
 	
-	private LowercaseAtoZTries[] children = new LowercaseAtoZTries[NUMBER_OF_CHARACTERS];
+	private LowercaseAtoZTrie[] children = new LowercaseAtoZTrie[NUMBER_OF_CHARACTERS];
 	private int childCount = 0;
+	private int keyCount = 0;
 	private String value = null;
 	private boolean isKey = false;
 		
@@ -38,9 +39,9 @@ public class LowercaseAtoZTries {
 		}
 		
 		char currentChar = key.charAt( index );
-		LowercaseAtoZTries child = getChild( currentChar );
+		LowercaseAtoZTrie child = getChild( currentChar );
 		if ( child == null ){
-			child = new LowercaseAtoZTries();
+			child = new LowercaseAtoZTrie();
 			child.value = key.substring(0,index+1);
 			setChild( currentChar, child );
 			childCount++;
@@ -48,11 +49,11 @@ public class LowercaseAtoZTries {
 		child.add( key, index+1 );
 	}
 	
-	private LowercaseAtoZTries getChild( char c ){
+	private LowercaseAtoZTrie getChild( char c ){
 		return children[ getCharIndex(c) ] ;
 	}
 	
-	private void setChild( char c, LowercaseAtoZTries node){
+	private void setChild( char c, LowercaseAtoZTrie node){
 		children[ getCharIndex(c) ] = node;
 	}
 	
@@ -65,7 +66,7 @@ public class LowercaseAtoZTries {
 			return true;
 		
 		char currentKeyChar = key.charAt( index );
-		LowercaseAtoZTries child = getChild( currentKeyChar );
+		LowercaseAtoZTrie child = getChild( currentKeyChar );
 		if ( child == null )
 			return false;
 		return child.isKey( key, index+1 );
@@ -91,7 +92,7 @@ public class LowercaseAtoZTries {
 	
 		// Find the matching prefix part recursively.
 		char currentKeyChar = prefix.charAt( index );
-		LowercaseAtoZTries child = getChild( currentKeyChar );
+		LowercaseAtoZTrie child = getChild( currentKeyChar );
 		if ( child != null ) {
 			if ( child.isKey)
 				matchingKeys.add( child.value );
@@ -113,16 +114,16 @@ public class LowercaseAtoZTries {
 			return childCount;
 		}
 		
-		LowercaseAtoZTries child = getChild( key.charAt( index ) );
+		LowercaseAtoZTrie child = getChild( key.charAt( index ) );
 		if ( child == null ) {
 			return 0;
 		}
 		return child.findCount( key, index+1 );
 	}
 
-	private Stream<LowercaseAtoZTries> flattened() {
+	private Stream<LowercaseAtoZTrie> flattened() {
 		return Stream.concat( Stream.of(this),
-							  Arrays.stream( children).filter(Objects::nonNull).flatMap( LowercaseAtoZTries::flattened ));
+							  Arrays.stream( children).filter(Objects::nonNull).flatMap( LowercaseAtoZTrie::flattened ));
     }
 	
 	public Stream<String> flattenedKeys(){
