@@ -1,11 +1,9 @@
 package com.oriaxx77.algorythm.tries;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * A symbol table implemented with as N-way Trie.
@@ -13,27 +11,32 @@ import java.util.stream.Stream;
  *
  * @param <TValue> Type of the values in the symbol table.
  */
-// TODO: Use alphabet
-// TODO: Extract interface
 // TODO: refactor to Java 8. E.g. use streams? See #flattened(), #flattenedKeys()
 // TODO: Analyze performance: Big O
-public class TrieSymbolTable<TValue> {
-	// TODO: move into alphabet
-	private static int RADIX = 26;
+public class TrieSymbolTable<TValue> implements SymbolTable<TValue> {
+	
+	
 	
 	private Node<TValue> root;
 	private int keyCount = 0;
+	private Alphabet alphabet;
 	
 	private static class Node<TValue> {
 		private Optional<TValue> value = Optional.empty();
-		@SuppressWarnings("unchecked")// Arrays :(
-		private Node<TValue>[] children = new Node[RADIX];
-	}
-	
-	public TrieSymbolTable(){
+		private Node<TValue>[] children;
 		
+		@SuppressWarnings("unchecked")// Arrays :(
+		public Node( int childrenCapacity ){
+			children = new Node[childrenCapacity];
+		}
 	}
 	
+	public TrieSymbolTable( Alphabet alphabet ){
+		Objects.requireNonNull( alphabet );
+		this.alphabet = alphabet;
+	}
+	
+	@Override
 	public Optional<TValue> get( String key ){
 		Objects.requireNonNull( key );
 		return get( root, key, 0 );
@@ -51,6 +54,7 @@ public class TrieSymbolTable<TValue> {
 		
 	}
 	
+	@Override
 	public void add( String key, TValue value ){
 		Objects.requireNonNull( key );
 		Objects.requireNonNull( value );
@@ -60,7 +64,7 @@ public class TrieSymbolTable<TValue> {
 	
 	private Node<TValue> add( Node<TValue> node, String key, TValue value, int keyIdx ){
 		if ( node == null )
-			node = new Node<TValue>();
+			node = new Node<TValue>( alphabet.getRadix() );
 		
 		if ( key.length() == keyIdx ){
 			if ( !node.value.isPresent() )
@@ -69,25 +73,29 @@ public class TrieSymbolTable<TValue> {
 			return node;
 		}
 		
-		int charIdx = getCharIdx( key.charAt( keyIdx ) );
+		int charIdx = alphabet.getIndex( key.charAt( keyIdx ) );
 		node.children[ charIdx ] = add( node.children[charIdx], key, value, keyIdx+1 ); 
 		return node;
 	}
 	
 	
+	@Override
 	public boolean empty(){
 		return keyCount == 0;
 	}
 	
+	@Override
 	public boolean contains( String key ){
 		return get( key ).isPresent();
 	}
 	
+	@Override
 	public Iterable<String> keys(){
 		return keysWithPrefix( "" );
 	}
 	
 	
+	@Override
 	public Iterable<String> keysWithPrefix( String prefix ){
 		List<String> matchingKeys = new ArrayList<String>();
 		keysWithPrefix( root, prefix, 0, matchingKeys, new StringBuilder() );
@@ -96,10 +104,10 @@ public class TrieSymbolTable<TValue> {
 	
 	private void keysWithPrefix( Node<TValue> node, String prefix, int prefixIdx, List<String> matchingKeys, StringBuilder keyBuilder ) {
 		if ( prefixIdx >= prefix.length() ) {
-			for ( int i = 0; i < RADIX; i++ ) {
+			for ( int i = 0; i < alphabet.getRadix(); i++ ) {
 				Node<TValue> child = node.children[i];
 				if ( child != null ) {
-					char currentChar = getChar( i );
+					char currentChar = alphabet.getCharacter( i );
 					keyBuilder.append( currentChar );
 					if ( child.value.isPresent() ) {
 						matchingKeys.add( keyBuilder.toString() );
@@ -121,6 +129,7 @@ public class TrieSymbolTable<TValue> {
 		
 	}
 	
+	@Override
 	public void delete( String key ){
 		root = delete( root, key, 0);
 	}
@@ -135,13 +144,13 @@ public class TrieSymbolTable<TValue> {
 				node.value = Optional.empty();
 		} else {
 			char currentChar = key.charAt( keyIdx );
-			node.children[ getCharIdx( currentChar ) ] = delete( node.children[ getCharIdx(currentChar)], key, keyIdx+1 );
+			node.children[ alphabet.getIndex( currentChar ) ] = delete( node.children[ alphabet.getIndex(currentChar)], key, keyIdx+1 );
 		}
 		
 		if ( node.value.isPresent() )
 			return node;
 		
-		for ( int i = 0; i < RADIX; i++ ){
+		for ( int i = 0; i < alphabet.getRadix(); i++ ){
 			if ( node.children[i] != null && node.children[i].value.isPresent() )
 				return node;
 		}
@@ -149,27 +158,10 @@ public class TrieSymbolTable<TValue> {
 		return null;		
 	}
 		
-	// TODO: move it to Node?
-	private Stream<Node<TValue>> flattened( Node<TValue> node ) {
-		return Stream.concat( Stream.of( node ),
-							  Arrays.stream( node.children ).filter( Objects::nonNull ).flatMap( this::flattened ));
-    }
-	
-	// TODO: move it to Node?
-	public Stream<TValue> flattenedKeys( Node<TValue> node ){
-		return flattened( node ).filter( n -> n.value.isPresent() ).map( n -> n.value.get() );				  
-	}
 	
 	private Node<TValue> getChild( Node<TValue> n, char c ){
-		return n.children[ getCharIdx(c) ];
+		return n.children[ alphabet.getIndex( c ) ];
 	}
 	
-	private static int getCharIdx( char c ){
-		return c - 'a';
-	}
-	
-	private static char getChar( int idx ){
-		return (char) (idx + 'a');
-	}
 	
 }

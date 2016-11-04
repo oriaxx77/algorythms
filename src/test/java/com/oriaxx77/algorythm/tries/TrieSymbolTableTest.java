@@ -8,26 +8,23 @@ import java.util.stream.StreamSupport;
 import org.junit.Assert;
 import org.junit.Test;
 
-// TODO: Implement this for all trie implementations.
-// TODO: Use SymbolTable interface
-
 public class TrieSymbolTableTest {
 	
 	// #add()
 	
 	@Test( expected = NullPointerException.class )
 	public void testAdd_withNullKey_throwNullPointerException(){
-		new TrieSymbolTable<String>().add( null, "value");
+		buildEmptySymbolTable().add( null, "value");
 	}
 	
 	@Test( expected = NullPointerException.class )
 	public void testAdd_withNullValue_throwNullPointerException(){
-		new TrieSymbolTable<String>().add( "key", null);
+		buildEmptySymbolTable().add( "key", null);
 	}
 	
 	@Test
 	public void testAdd_withNonNulls_keyExistsWithValue(){
-		TrieSymbolTable<String> symbolTable = new TrieSymbolTable<>();
+		SymbolTable<String> symbolTable = buildEmptySymbolTable();
 		String key = "key";
 		String value = "value";
 		symbolTable.add( key, value);
@@ -76,7 +73,7 @@ public class TrieSymbolTableTest {
 	
 	@Test
 	public void testDelete_witsKeysInSymbolTable_expectKeysDoNotExist(){
-		TrieSymbolTable<String> symbolTable = new TrieSymbolTable<>();
+		SymbolTable<String> symbolTable = buildEmptySymbolTable();
 		for ( int i = KEYS.length-1; i >= 0; i-- ){
 			symbolTable.delete( KEYS[i] );
 			Assert.assertFalse( symbolTable.contains( KEYS[i] ) );
@@ -87,7 +84,7 @@ public class TrieSymbolTableTest {
 	
 	@Test
 	public void testEmpty_withEmptyTrieSymbolTable_returnTrue(){
-		Assert.assertTrue(  new TrieSymbolTable<String>().empty() );
+		Assert.assertTrue(  buildEmptySymbolTable().empty() );
 	}
 	
 	public void testEmpty_withNonEmptyTrieSymbolTable_returnFalse(){
@@ -98,10 +95,14 @@ public class TrieSymbolTableTest {
 	
 	private static final String[] KEYS = { "a", "aabc", "aac", "acb", "ba", "bab" };
 	
-	private TrieSymbolTable<String> buildTrieSymbolTable( ) {
-		TrieSymbolTable<String> symbolTable = new TrieSymbolTable<>();
+	private SymbolTable<String> buildTrieSymbolTable( ) {
+		SymbolTable<String> symbolTable = new TrieSymbolTable<>( Alphabets.LowercaseAtoZ );
 		Arrays.stream( KEYS ).forEach(  key -> symbolTable.add( key, key ) );
 		return symbolTable;
+	}
+	
+	private SymbolTable<String> buildEmptySymbolTable() {
+		return new TrieSymbolTable<>( Alphabets.LowercaseAtoZ );
 	}
 	
 	private static List<String> toList( Iterable<String> iterable ){
