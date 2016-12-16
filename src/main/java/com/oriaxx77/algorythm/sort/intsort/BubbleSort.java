@@ -26,7 +26,7 @@ public class BubbleSort implements Sort {
 			
 			boolean sorted = true; // If no swap happened then it is sorted. 
 			
-			for ( int j = 0; j < array.length-1; j++ ){
+			for ( int j = 0; j < array.length-1-i; j++ ){
 				if ( array[j] > array[j+1] ){
 					swapper.swap( array, j, j+1 );
 					sorted = false;
