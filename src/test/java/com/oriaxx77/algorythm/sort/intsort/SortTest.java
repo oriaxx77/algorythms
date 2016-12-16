@@ -17,7 +17,7 @@ public class SortTest
     @Parameters
     public static Collection<Sort> sorts() {
         return Arrays.asList(new Sort[] {     
-                 new InsertionSort(), new TopDownMergeSort(), new BottomUpMergeSort(), new QuickSort()  
+                 new InsertionSort(), new TopDownMergeSort(), new BottomUpMergeSort(), new QuickSort(), new BubbleSort()  
            });
     }
 
