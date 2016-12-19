@@ -42,12 +42,10 @@ public class SelectionSort implements Sort {
 			return;
 		
 		for ( int i = 0; i < array.length; i++ ){
-			System.out.println( Arrays.toString( array ) );
+			
 			int min = findMin( array, i );
 			swapper.swap( array, i, min );
 		}
-		System.out.println( Arrays.toString( array ) );
-		
 	}
 	
 	private int findMin( int[] array, int start ){
