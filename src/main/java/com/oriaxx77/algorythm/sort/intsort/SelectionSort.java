@@ -3,14 +3,12 @@
  */
 package com.oriaxx77.algorythm.sort.intsort;
 
-import java.util.Arrays;
-
 /**
  * How it works:
  * 
  * Divide the array into two parts: sorted, unsorted.
  * Select the smallest element from the unsorted and replace the left-most element
- * with this smallest element. Repeat it untill the unsorted part is empty.
+ * with this smallest element. Repeat it until the unsorted part is empty.
  * So in every iteration the sorted part (starting from 0) contains one more element.
  * 
  * 
@@ -42,7 +40,6 @@ public class SelectionSort implements Sort {
 			return;
 		
 		for ( int i = 0; i < array.length; i++ ){
-			
 			int min = findMin( array, i );
 			swapper.swap( array, i, min );
 		}
