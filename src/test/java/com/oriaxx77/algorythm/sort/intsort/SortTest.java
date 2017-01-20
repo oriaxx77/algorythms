@@ -18,7 +18,7 @@ public class SortTest
     public static Collection<Sort> sorts() {
         return Arrays.asList(new Sort[] {     
                  new InsertionSort(), new TopDownMergeSort(), new BottomUpMergeSort(), new QuickSort(), new BubbleSort(),
-                 new SelectionSort()
+                 new SelectionSort(), new MaxHeapSort()
            });
     }
 
