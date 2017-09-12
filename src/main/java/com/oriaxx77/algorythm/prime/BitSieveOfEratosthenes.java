@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  */
 public class BitSieveOfEratosthenes implements PrimeGenerator
 {
+	
 
     @Override
     public List<Integer> generatePrimes(int limit)
