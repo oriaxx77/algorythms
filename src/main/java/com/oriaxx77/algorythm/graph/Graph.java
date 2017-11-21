@@ -9,14 +9,14 @@ import com.oriaxx77.algorythm.util.Numbers;
 
 public class Graph 
 {
-	private int numberOfVertices;
+	private int size;
 	private List<Integer>[] adjacentVertices;
 
 	@SuppressWarnings("unchecked") // Creation of the adjacencies. That is an array of List<Integer>.
 	public Graph(int numberOfVertices) 
 	{
 		Numbers.requirePositive(numberOfVertices);
-		this.numberOfVertices = numberOfVertices;
+		this.size = numberOfVertices;
 		this.adjacentVertices = new ArrayList[numberOfVertices];
 		IntStream.range(0, numberOfVertices ).forEach( i -> adjacentVertices[i] = new ArrayList<Integer>());
 		
@@ -26,6 +26,7 @@ public class Graph
 	{
 		validateVertex(vertex1);
 		validateVertex(vertex2);
+		
 		if (vertex1 != vertex2) 
 		{
 			if (!adjacentVertices[vertex1].contains(vertex2))
@@ -42,14 +43,14 @@ public class Graph
 		return adjacentVertices[vertex].stream();
 	}
 
-	public int getNumberOfVertices() 
+	public int getSize() 
 	{
-		return numberOfVertices;
+		return size;
 	}
 
 	private void validateVertex(int vertex) 
 	{
-		if (vertex < 0 && vertex >= numberOfVertices)
+		if (vertex < 0 && vertex >= size)
 			throw new RuntimeException("Invalid vertex.");
 	}
 

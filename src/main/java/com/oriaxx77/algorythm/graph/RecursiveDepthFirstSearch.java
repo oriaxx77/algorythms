@@ -11,7 +11,7 @@ public class RecursiveDepthFirstSearch implements Search
 							  		  int sourceVertex )
 	{
 		
-		connected = new boolean[ graph.getNumberOfVertices() ];	
+		connected = new boolean[ graph.getSize() ];	
 		dfs( graph, sourceVertex );
 	}
 	
