@@ -13,4 +13,11 @@ public class ElementSwapper
         array[idx1] = array[idx2];
         array[idx2] = tmp;
     }
+    
+    public void swap( Object[] array, int idx1, int idx2 )
+    {
+    	Object tmp = array[idx1];
+        array[idx1] = array[idx2];
+        array[idx2] = tmp;
+    }
 }
