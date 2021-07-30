@@ -5,21 +5,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TrieSymbolTableTest {
 	
 	// #add()
 	
-	@Test( expected = NullPointerException.class )
-	public void testAdd_withNullKey_throwNullPointerException(){
-		buildEmptySymbolTable().add( null, "value");
+	@Test
+	public void testAdd_withNullKey_throwNullPointerException() {
+		Assertions.assertThrows(NullPointerException.class, () -> buildEmptySymbolTable().add( null, "value"));
 	}
 	
-	@Test( expected = NullPointerException.class )
+	@Test()
 	public void testAdd_withNullValue_throwNullPointerException(){
-		buildEmptySymbolTable().add( "key", null);
+		Assertions.assertThrows(NullPointerException.class, () -> {
+			buildEmptySymbolTable().add("key", null);
+		});
 	}
 	
 	@Test
@@ -28,8 +31,8 @@ public class TrieSymbolTableTest {
 		String key = "key";
 		String value = "value";
 		symbolTable.add( key, value);
-		Assert.assertTrue( symbolTable.contains( key ) );
-		Assert.assertEquals( value, symbolTable.get( key ).get() );
+		assertTrue( symbolTable.contains( key ) );
+		assertEquals( value, symbolTable.get( key ).get() );
 		
 	}
 	
@@ -38,7 +41,7 @@ public class TrieSymbolTableTest {
 	@Test
 	public void testKeys(){
 		String[] actualKeys = toArray( buildTrieSymbolTable().keys() );
-		Assert.assertArrayEquals( KEYS, actualKeys );
+		assertArrayEquals( KEYS, actualKeys );
 	}
 	
 	// #keysWithPrefix()
@@ -47,26 +50,26 @@ public class TrieSymbolTableTest {
 	public void testKeysWithPrefix(){
 		String[] actualKeys = toArray( buildTrieSymbolTable().keysWithPrefix( "aa" ) );
 		String[] expectedKeys = new String[]{ "aabc", "aac" };
-		Assert.assertArrayEquals( expectedKeys, actualKeys  );
+		assertArrayEquals( expectedKeys, actualKeys  );
 	}
 	
 	
 	// #exist()
 	
 	public void testContains_withExistingIntermediaryKey_returnTrue(){
-		Assert.assertTrue( buildTrieSymbolTable().contains("a") );
+		assertTrue( buildTrieSymbolTable().contains("a") );
 	}
 	
 	public void testContains_withExistingLeafKey_returnTrue(){
-		Assert.assertTrue( buildTrieSymbolTable().contains( "aabc" ) );
+		assertTrue( buildTrieSymbolTable().contains( "aabc" ) );
 	}
 	
 	public void testExist_withNonExistingKey_returnFalse(){
-		Assert.assertFalse( buildTrieSymbolTable().contains( "x" ) );
+		assertFalse( buildTrieSymbolTable().contains( "x" ) );
 	}
 	
 	public void testExist_withNullKey_returnFalse(){
-		Assert.assertFalse( buildTrieSymbolTable().contains( null ) );
+		assertFalse( buildTrieSymbolTable().contains( null ) );
 	}
 	
 	// #delete()
@@ -76,7 +79,7 @@ public class TrieSymbolTableTest {
 		SymbolTable<String> symbolTable = buildEmptySymbolTable();
 		for ( int i = KEYS.length-1; i >= 0; i-- ){
 			symbolTable.delete( KEYS[i] );
-			Assert.assertFalse( symbolTable.contains( KEYS[i] ) );
+			assertFalse( symbolTable.contains( KEYS[i] ) );
 		}
 	}
 	
@@ -84,11 +87,11 @@ public class TrieSymbolTableTest {
 	
 	@Test
 	public void testEmpty_withEmptyTrieSymbolTable_returnTrue(){
-		Assert.assertTrue(  buildEmptySymbolTable().empty() );
+		assertTrue(  buildEmptySymbolTable().empty() );
 	}
 	
 	public void testEmpty_withNonEmptyTrieSymbolTable_returnFalse(){
-		Assert.assertFalse( buildTrieSymbolTable().empty() );
+		assertFalse( buildTrieSymbolTable().empty() );
 	}
 	
 	// Helpers

@@ -2,8 +2,9 @@ package com.oriaxx77.algorythm.tries;
 
 import java.util.stream.IntStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AlphabetTest 
 {
@@ -16,15 +17,17 @@ public class AlphabetTest
 	public void testGetIndex_withValidCharacter_returnIndex()
 	{
 		IntStream.range( 0, characters.length() ).forEach( i -> { 
-			Assert.assertTrue(  i == alphabet.getIndex( characters.charAt(i) ) );
+			assertTrue(  i == alphabet.getIndex( characters.charAt(i) ) );
 		} );
 		
 	}
 	
-	@Test( expected = IllegalArgumentException.class )
+	@Test
 	public void testGetIndex_withInvalidCharacter_throwIllegalArgumentException()
 	{
-		alphabet.getIndex( 'x' ); 
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			alphabet.getIndex( 'x' );
+		});
 	}
 	
 	
@@ -34,7 +37,7 @@ public class AlphabetTest
 	{
 		IntStream.range(0, characters.length() )
 		 .forEach( i -> {
-			 Assert.assertTrue( characters.charAt(i) == alphabet.getCharacter(i) );
+			 assertTrue( characters.charAt(i) == alphabet.getCharacter(i) );
 		 } );
 	}
 	
@@ -47,7 +50,7 @@ public class AlphabetTest
 	
 	public void getRadix()
 	{
-		Assert.assertEquals( characters.length(), alphabet.getRadix() );
+		assertEquals( characters.length(), alphabet.getRadix() );
 	}
 
 	

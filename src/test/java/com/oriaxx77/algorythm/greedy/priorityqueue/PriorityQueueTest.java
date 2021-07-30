@@ -2,8 +2,9 @@ package com.oriaxx77.algorythm.greedy.priorityqueue;
 
 import java.util.stream.IntStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 // TODO:work on corner cases. Like empty queue and poll. More elements than initial capacity etc...
 public class PriorityQueueTest 
 {
@@ -14,7 +15,7 @@ public class PriorityQueueTest
 		PriorityQueue<Integer> queue = new PriorityQueue<Integer>( Integer::compareTo );
 		IntStream.rangeClosed(0, 8).forEach( queue::add );
 		boolean alwaysMaxPolled = reverseRange(8,0).allMatch( (i) -> {return i == queue.poll().get();} );
-		Assert.assertTrue( alwaysMaxPolled );
+		assertTrue( alwaysMaxPolled );
 		
 	}
 	

@@ -1,7 +1,8 @@
 package com.oriaxx77.algorythm.list;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LinkedListReversalTest {
 
@@ -14,10 +15,12 @@ public class LinkedListReversalTest {
 		Node<String> expectedList = createList( new String[]{ "C", "B", "A"});
 		assertEquals( expectedList, reversedList );
 	}
-	
-	@Test(expected=NullPointerException.class)
+
+	@Test
 	public void testReverseWithNullListExpectNullpointerException(){
-		linkedListReversal.reverse( null );
+		Assertions.assertThrows(NullPointerException.class, () -> {
+			linkedListReversal.reverse( null );
+		} );
 	}
 	
 	private <T> Node<T> createList( T[] array ){

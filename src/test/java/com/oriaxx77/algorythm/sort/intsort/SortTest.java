@@ -1,20 +1,17 @@
 package com.oriaxx77.algorythm.sort.intsort;
 
-import static org.junit.Assert.assertArrayEquals;
+
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class SortTest
 {
-    @Parameters
+    //@Parameters
     public static Collection<Sort> sorts() {
         return Arrays.asList(new Sort[] {     
                  new InsertionSort(), new TopDownMergeSort(), new BottomUpMergeSort(), new QuickSort(), new BubbleSort(),

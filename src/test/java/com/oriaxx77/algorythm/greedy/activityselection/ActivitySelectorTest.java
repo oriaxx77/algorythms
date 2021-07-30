@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ActivitySelectorTest 
 {
@@ -26,7 +26,7 @@ public class ActivitySelectorTest
 		
 		// Then
 		List<Activity> expectedSelectedActivities = Arrays.asList( activity1, activity4 );
-		Assert.assertEquals( expectedSelectedActivities, actualSelectedActivities );
+		assertEquals( expectedSelectedActivities, actualSelectedActivities );
 		
 	}
 			
